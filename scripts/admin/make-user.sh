@@ -12,6 +12,7 @@ if whiptail --yesno "Would you like this user to use the Hub System?" 10 100;
 then
 	mkdir -p /ssh_hub/keys
 	ssh-keygen -b 2048 -t rsa -f /ssh_hub/keys/$NAME -q -N ""
+	chmod a+rx /ssh_hub/keys/$NAME
 	PUB_KEY_NODE=$(cat /ssh_hub/keys/$NAME.pub)
 	cp /ssh_hub/keys/$NAME.pub /srv/salt/prod/$NAME.ssh.pub
 	usehub=true

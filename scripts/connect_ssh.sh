@@ -13,4 +13,4 @@ fi
 echo "Connecting."
 
 ssh $USER@$IP -i $KEY_PRIV_FILE
-echo "ssh $USER@$IP -i $KEY_PRIV_FILE"
+#echo "ssh $USER@$IP -i $KEY_PRIV_FILE"
