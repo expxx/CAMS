@@ -31,3 +31,7 @@ echo "- Remove User (BACKEND)"
 salt '*' user.delete $NAME remove=True force=True
 echo "- Removing Home Dir (BACKEND)"
 salt '*' cmd.run "rm -rf /home/$NAME"
+
+whiptail --msgbox "Done!" 10 100
+/ssh_hub/scripts/main_menu.sh
+exit 500;

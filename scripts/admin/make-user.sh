@@ -70,3 +70,7 @@ else
 fi
 echo "- Gen Password (BACKEND)"
 salt '*' cmd.run "echo '$pass\n$pass' | passwd $NAME"
+
+whiptail --msgbox "Done!" 10 100
+/ssh_hub/scripts/main_menu.sh
+exit 500;
