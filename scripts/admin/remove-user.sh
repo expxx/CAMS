@@ -1,6 +1,11 @@
 #!/bin/bash
 NAME=$(whiptail --inputbox "Please enter tha nem of the user you'd like to remove" 10 100 3>&1 1>&2 2>&3)
-
+if [[ $NAME == "" ]];
+then
+	echo "Failure."
+	/ssh_hub/scripts/main_menu.sh
+	exit 500;
+fi
 usehub=false
 if whiptail --yesno "Does this user use the Hub System?" 10 100;
 then

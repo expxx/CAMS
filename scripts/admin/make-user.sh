@@ -3,6 +3,7 @@ NAME=$(whiptail --inputbox "Please enter the name of the user you'd like to make
 if [[ $NAME == "" ]];
 then
 	echo "Failure"
+	/ssh_hub/scripts/main_menu.sh
 	exit 500;
 fi
 # Hub System; Requires a SSH Key to be generated out of users control, and put that on nodes. Does require a key anyway to authenticate to hub.
