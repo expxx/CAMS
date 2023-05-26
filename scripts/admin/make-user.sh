@@ -59,20 +59,34 @@ if [[ $usehub == true ]]; then
 fi
 
 echo "- Create User (BACKEND)"
-salt '*' user.add $NAME
-salt '*' user.chhome $NAME /home/$NAME True
-salt '*' user.chshell $NAME /bin/bash
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "useradd $NAME"
+done
+
 echo "- Apply PUB Key (BACKEND)"
-salt '*' cmd.run "mkdir -p /home/$NAME/.ssh"
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "mkdir -p /home/$NAME/.ssh"
+done
 
 if [[ $usehub == true ]]; then
-    salt '*' ssh.set_auth_key_from_file $NAME salt://$NAME.ssh.pub
+    # Execute the command on each remote system using SSH
+    for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+        ssh "$remote_system" "rsync -avz /srv/salt/prod/$NAME.ssh.pub /home/$NAME/.ssh/authorized_keys"
+    done
 else
-    salt '*' cmd.run "echo $PUB_KEY > /home/$NAME/.ssh/authorized_keys"
+    # Execute the command on each remote system using SSH
+    for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+        ssh "$remote_system" "echo $PUB_KEY > /home/$NAME/.ssh/authorized_keys"
+    done
 fi
 
 echo "- Gen Password (BACKEND)"
-salt '*' cmd.run "echo '$pass\n$pass' | passwd $NAME"
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "echo '$pass\n$pass' | passwd $NAME"
+done
 
 dialog --backtitle "User Creation" \
     --msgbox "Done!" 10 100

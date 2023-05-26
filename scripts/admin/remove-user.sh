@@ -30,11 +30,22 @@ if [[ $usehub == true ]]; then
 fi
 
 echo "- Terminating anything run by user (BACKEND)"
-salt '*' cmd.run "killall -u $NAME"
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "killall -u $NAME"
+done
+
 echo "- Remove User (BACKEND)"
-salt '*' user.delete $NAME remove=True force=True
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "userdel $NAME"
+done
+
 echo "- Removing Home Dir (BACKEND)"
-salt '*' cmd.run "rm -rf /home/$NAME"
+# Execute the command on each remote system using SSH
+for remote_system in "${REMOTE_SYSTEMS[@]}"; do
+    ssh "$remote_system" "rm -rf /home/$NAME"
+done
 
 dialog --backtitle "User Removal" \
     --msgbox "Done!" 10 100
