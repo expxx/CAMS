@@ -47,6 +47,8 @@ then
 	chmod 600 /home/$NAME/.ssh/authorized_keys
 	echo "- Gen Password (HUB)"
 	chpasswd <<<"$NAME:$pass"
+	echo "- Changing Shell (HUB)"
+	chsh $NAME -s /ssh_hub/shells/hub_user.shell
 	echo "- Restart SSHD"
 	systemctl restart sshd
 	echo ""

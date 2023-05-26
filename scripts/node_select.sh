@@ -18,6 +18,7 @@ CHOICE=$(whiptail --title "Select a Machine" --menu "Select" 16 78 10 "${array[@
 if [[ $CHOICE == "" ]];
 then
 	echo "Cancelled."
+	/ssh_hub/scripts/main_menu.sh
 	exit 500;
 fi
 

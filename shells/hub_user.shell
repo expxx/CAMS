@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Hey, you're here.
+# Get out.
+
+while true;
+do
+	exec /ssh_hub/scripts/main_menu.sh
+done
