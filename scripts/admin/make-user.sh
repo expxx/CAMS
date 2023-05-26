@@ -16,7 +16,6 @@ if dialog --backtitle "User Creation" \
     ssh-keygen -b 2048 -t rsa -f /ssh_hub/keys/$NAME -q -N ""
     chmod a+rx /ssh_hub/keys/$NAME
     PUB_KEY_NODE=$(cat /ssh_hub/keys/$NAME.pub)
-    cp /ssh_hub/keys/$NAME.pub /srv/salt/prod/$NAME.ssh.pub
     usehub=true
 fi
 
@@ -73,7 +72,7 @@ done
 if [[ $usehub == true ]]; then
     # Execute the command on each remote system using SSH
     for remote_system in "${REMOTE_SYSTEMS[@]}"; do
-        ssh "$remote_system" "rsync -avz /srv/salt/prod/$NAME.ssh.pub /home/$NAME/.ssh/authorized_keys"
+        ssh "$remote_system" "rsync -avz /ssh_hub/keys/$NAME.pub /home/$NAME/.ssh/authorized_keys"
     done
 else
     # Execute the command on each remote system using SSH
